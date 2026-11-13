@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Pixel Topography Scanner (Local Offline)</title>
+    <title>Bio-Aesthetic & Physique Auditor (Local Offline)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>BIO-PIXEL SCANNER <span class="badge">100% LOCAL / OFFLINE</span></h1>
-            <p class="subtitle">Zero-upload luminance gradient & muscle compartmentalization analyzer.</p>
+            <h1>PHYSIQUE TOPOGRAPHY AUDITOR <span class="badge">PRO-SPEC / OFFLINE</span></h1>
+            <p class="subtitle">Advanced body-fat estimation, V-taper ratio, and compartmentalization density scanner.</p>
         </header>
 
         <section class="controls">
-            <label for="imageInput" class="upload-btn">Select Image (Stays in Browser Memory)</label>
+            <label for="imageInput" class="upload-btn">Upload Physique Crop</label>
             <input type="file" id="imageInput" accept="image/*">
             
             <div class="sliders">
                 <div class="slider-group">
-                    <label for="sensitivity">Gradient Sensitivity: <span id="sensVal">28</span></label>
-                    <input type="range" id="sensitivity" min="10" max="80" value="28">
+                    <label for="sensitivity">Definition Sensitivity: <span id="sensVal">22</span></label>
+                    <input type="range" id="sensitivity" min="10" max="60" value="22">
                 </div>
                 <div class="slider-group">
                     <label for="viewMode">Render Mode:</label>
                     <select id="viewMode">
-                        <option value="topography">Striation & Edge Topography</option>
-                        <option value="luminance">Normalized Luminance Map</option>
-                        <option value="original">Original Cropped Frame</option>
+                        <option value="topography">Muscle Separation & Edge Map</option>
+                        <option value="luminance">Normalized Contrast Map</option>
+                        <option value="original">Original Crop</option>
                     </select>
                 </div>
             </div>
@@ -36,28 +36,33 @@
         <main class="workspace">
             <div class="canvas-box">
                 <canvas id="scanCanvas"></canvas>
-                <p class="hint">Tip: Drag across the canvas to isolate a specific muscle group (e.g., Deltoids, Serratus, Forearm) for targeted density scoring.</p>
+                <p class="hint">Tip: Drag across specific muscle groups (delts, core, back) to isolate density scoring.</p>
             </div>
 
             <aside class="metrics-panel">
-                <h2>DIAGNOSTIC READOUT</h2>
-                <div class="metric-card">
-                    <span class="label">Conditioning / Striation Index</span>
-                    <span class="value" id="striationScore">-- / 100</span>
-                    <span class="desc">Measures high-frequency light-to-dark fascial transitions.</span>
-                </div>
-                <div class="metric-card">
-                    <span class="label">Vascular & Ridge Contrast</span>
-                    <span class="value" id="vascularScore">-- / 100</span>
-                    <span class="desc">Measures local micro-shadow depth & ridge prominence.</span>
-                </div>
-                <div class="metric-card">
-                    <span class="label">Bilateral Symmetry Variance</span>
-                    <span class="value" id="symmetryScore">-- %</span>
-                    <span class="desc">Left vs. right luminance gradient balance.</span>
-                </div>
+                <h2>ESTIMATED PHYSIQUE METRICS</h2>
                 <div class="metric-card highlight">
-                    <span class="label">Overall Tissue Definition Tier</span>
+                    <span class="label">Est. Visual Body Fat %</span>
+                    <span class="value" id="bfScore">-- %</span>
+                    <span class="desc">Inferred from subcutaneous clarity and shadow contrast.</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">Conditioning & Shreddedness</span>
+                    <span class="value" id="shreddedScore">-- / 100</span>
+                    <span class="desc">Fascial separation & sub-bundle transition frequency.</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">V-Taper Proportion Ratio</span>
+                    <span class="value" id="taperScore">-- : 1</span>
+                    <span class="desc">Shoulder-to-waist architectural ratio.</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">Bilateral Symmetry & Balance</span>
+                    <span class="value" id="symmetryScore">-- %</span>
+                    <span class="desc">Left vs. right structural gradient match.</span>
+                </div>
+                <div class="metric-card tier-card">
+                    <span class="label">Aesthetic Definition Tier</span>
                     <span class="value" id="tierVerdict">AWAITING SCAN</span>
                 </div>
                 <button id="resetCropBtn" class="secondary-btn">Reset Selection Area</button>
