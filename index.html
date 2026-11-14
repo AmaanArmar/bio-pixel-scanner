@@ -3,71 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Aesthetic & Physique Auditor (Local Offline)</title>
+    <title>Bio-Aesthetic & Anthropometric Auditor (Local Offline)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>PHYSIQUE TOPOGRAPHY AUDITOR <span class="badge">PRO-SPEC / OFFLINE</span></h1>
-            <p class="subtitle">Advanced body-fat estimation, V-taper ratio, and compartmentalization density scanner.</p>
+            <h1>PHYSIQUE AUDITOR & LOGS <span class="badge">PRO-SPEC / 100% LOCAL</span></h1>
+            <nav class="nav-tabs">
+                <button class="tab-btn active" data-tab="scanner">Scanner & Metrics</button>
+                <button class="tab-btn" data-tab="logs">Saved Logs & History</button>
+            </nav>
         </header>
 
-        <section class="controls">
-            <label for="imageInput" class="upload-btn">Upload Physique Crop</label>
-            <input type="file" id="imageInput" accept="image/*">
-            
-            <div class="sliders">
-                <div class="slider-group">
-                    <label for="sensitivity">Definition Sensitivity: <span id="sensVal">22</span></label>
-                    <input type="range" id="sensitivity" min="10" max="60" value="22">
-                </div>
-                <div class="slider-group">
-                    <label for="viewMode">Render Mode:</label>
-                    <select id="viewMode">
-                        <option value="topography">Muscle Separation & Edge Map</option>
-                        <option value="luminance">Normalized Contrast Map</option>
-                        <option value="original">Original Crop</option>
-                    </select>
-                </div>
-            </div>
-        </section>
+        <!-- SCANNER TAB -->
+        <main class="workspace tab-content active" id="scannerTab">
+            <div class="left-column">
+                <section class="controls-card">
+                    <h3>1. Upload & Background Guide</h3>
+                    <p class="guide-text">Tip: Use a solid neutral background (black/white) and clean lighting to prevent background noise.</p>
+                    <label for="imageInput" class="upload-btn">Upload Cropped Physique</label>
+                    <input type="file" id="imageInput" accept="image/*">
+                    
+                    <div class="sliders">
+                        <div class="slider-group">
+                            <label for="sensitivity">Sensitivity: <span id="sensVal">10</span></label>
+                            <input type="range" id="sensitivity" min="5" max="40" value="10">
+                        </div>
+                    </div>
+                </section>
 
-        <main class="workspace">
-            <div class="canvas-box">
-                <canvas id="scanCanvas"></canvas>
-                <p class="hint">Tip: Drag across specific muscle groups (delts, core, back) to isolate density scoring.</p>
+                <section class="controls-card">
+                    <h3>2. Tape Measurements (Cross-Verification)</h3>
+                    <div class="metrics-grid-form">
+                        <div class="form-group"><label>Age</label><input type="number" id="inputAge" placeholder="18"></div>
+                        <div class="form-group"><label>Height (cm)</label><input type="number" id="inputHeight" placeholder="182"></div>
+                        <div class="form-group"><label>Weight (kg)</label><input type="number" id="inputWeight" placeholder="--"></div>
+                        <div class="form-group"><label>Waist (cm)</label><input type="number" id="inputWaist" placeholder="68"></div>
+                        <div class="form-group"><label>Shoulders (cm)</label><input type="number" id="inputShoulders" placeholder="--"></div>
+                        <div class="form-group"><label>Bicep (cm)</label><input type="number" id="inputBicep" placeholder="--"></div>
+                        <div class="form-group"><label>Thigh (cm)</label><input type="number" id="inputThigh" placeholder="--"></div>
+                    </div>
+                    <button id="verifyDataBtn" class="primary-btn">Run Cross-Verification</button>
+                </section>
+            </div>
+
+            <div class="center-column">
+                <div class="canvas-box">
+                    <canvas id="scanCanvas"></canvas>
+                    <p class="hint">Drag across muscle groups to isolate scan area.</p>
+                </div>
+                <button id="saveLogBtn" class="accent-btn">Save Scan & Measurements to Local Log</button>
             </div>
 
             <aside class="metrics-panel">
-                <h2>ESTIMATED PHYSIQUE METRICS</h2>
+                <h2>AUDIT READOUT</h2>
                 <div class="metric-card highlight">
                     <span class="label">Est. Visual Body Fat %</span>
                     <span class="value" id="bfScore">-- %</span>
-                    <span class="desc">Inferred from subcutaneous clarity and shadow contrast.</span>
                 </div>
                 <div class="metric-card">
-                    <span class="label">Conditioning & Shreddedness</span>
+                    <span class="label">Conditioning Index</span>
                     <span class="value" id="shreddedScore">-- / 100</span>
-                    <span class="desc">Fascial separation & sub-bundle transition frequency.</span>
                 </div>
                 <div class="metric-card">
-                    <span class="label">V-Taper Proportion Ratio</span>
+                    <span class="label">V-Taper Ratio (Pixel vs Tape)</span>
                     <span class="value" id="taperScore">-- : 1</span>
-                    <span class="desc">Shoulder-to-waist architectural ratio.</span>
                 </div>
                 <div class="metric-card">
-                    <span class="label">Bilateral Symmetry & Balance</span>
+                    <span class="label">Bilateral Symmetry</span>
                     <span class="value" id="symmetryScore">-- %</span>
-                    <span class="desc">Left vs. right structural gradient match.</span>
                 </div>
                 <div class="metric-card tier-card">
-                    <span class="label">Aesthetic Definition Tier</span>
+                    <span class="label">Definition Tier</span>
                     <span class="value" id="tierVerdict">AWAITING SCAN</span>
                 </div>
                 <button id="resetCropBtn" class="secondary-btn">Reset Selection Area</button>
             </aside>
         </main>
+
+        <!-- LOGS TAB -->
+        <section class="tab-content logs-section" id="logsTab">
+            <h2>Saved Training & Physique Logs (Stored Locally)</h2>
+            <div id="logsContainer" class="logs-container">
+                <p class="no-logs">No saved logs yet. Run a scan and click 'Save Scan & Measurements'.</p>
+            </div>
+            <button id="clearLogsBtn" class="secondary-btn">Clear All Local Logs</button>
+        </section>
     </div>
     <script src="script.js"></script>
 </body>
